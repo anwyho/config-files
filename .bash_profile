@@ -12,3 +12,5 @@
 
 # Loads .profile which loads .bashrc
 if [ -r ~/.profile ]; then . ~/.profile; fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
