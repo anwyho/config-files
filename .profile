@@ -24,7 +24,10 @@ export PATH="$HOME/.cargo/bin:$PATH"  # rust/cargo
 
 # Git Configs
 # Show Git branch in prompt
-parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' ; }
+parse_git_branch() { 
+    git remote -v 2>/dev/null | grep anwyho/config-files >/dev/null || \
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
 # Modifying the prompt:
 # https://misc.flogisoft.com/bash/tip_colors_and_formatting
 # https://www.gnu.org/software/bash/manual/bashref.html#Controlling-the-Prompt
