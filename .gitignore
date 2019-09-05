@@ -1,0 +1,12 @@
+/*
+!.bash_aliases
+!.bash_profile
+!.bashrc
+!.gitignore
+!.profile
+!.vimrc
+
+# Only get VS Code settings
+!.vscode/
+.vscode/*
+!.vscode/settings.json
