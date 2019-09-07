@@ -1,18 +1,20 @@
+#!/bin/bash
 
-# Overwrite default variables
-command -v highlight >/dev/null && CAT_TYPE=highlight
-command -v gls >/dev/null && LS=gls && LSOPTS="--color=auto --group-directories-first"
+
+# Workspaces
+alias dws="cd ~/Dropbox/workspace/"
+alias ws="cd ~/workspace/"
+
 
 # File shortcuts
-alias vimrc="vim ~/.vimrc"
-alias bashrc="vim ~/.bashrc"
-alias bash_aliases="vim ~/.bash_aliases"
-alias bash_profile="vim ~/.bash_profile"
-alias profile="vim ~/.profile"
-alias asource="source ~/.bash_profile; source ~/.vimrc"
+alias vrc="vim ~/.vimrc"
+alias brc="vim ~/.bashrc"
+alias bal="vim ~/.bash_aliases"
+alias bpr="vim ~/.bash_profile"
+alias pro="vim ~/.profile"
+alias sp="source ~/.bash_profile"
 
 # Kubernetes
-alias kapf="kubectl apply -f"
 kd() {
     # Opens Kubernetes dashboard and copies bearer token into clipboard.
     printf "Opening Kubernetes dashboard..."
@@ -32,8 +34,9 @@ kd() {
         |sed 's/token:      //' \
         |${copy} \
         && kubectl proxy \
-        || echo "Failed to get token."
+        || printf "Failed to get token."
 }
+alias kapf="kubectl apply -f"
 alias kdl="kubectl delete"
 alias kds="kubectl describe"
 alias kdsp="kubectl describe deployment"
@@ -78,8 +81,10 @@ alias yta="youtube-dl --add-metadata -xic"  # download only audio
 alias YT="youtube-viewer"
 
 # Built-In
-alias ...='cd ../..'
-alias ....='cd ../../..'
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+alias senv="env |sort"
 
 cdl() { cd "$@" && ls; }
 cdls() { cd "$@" && ls; }
@@ -87,16 +92,21 @@ cdla() { cd "$@" && ls -a; }
 cdlal() { cd "$@" && ls -lahF; }
 cdlla() { cd "$@" && ls -lahF; }
 
+# Overwrite default variables
+command -v highlight >/dev/null && CAT_TYPE=highlight
+command -v gls >/dev/null && LS=gls && LSOPTS="--color=auto --group-directories-first"
+
 alias cat="${CAT_TYPE:-cat} --out-format=ansi"  # print file with syntax highlighting.
 alias grep="grep --color=auto"  # highlight desired sequence.
 alias ka="killall"  # end all processes
 
 alias ls="${LS:-ls} -h $LSOPTS"
+alias la="${LS:-ls} -ah $LSOPTS"
 alias lsa="${LS:-ls} -ahF $LSOPTS"
 alias lsl="${LS:-ls} -lhF $LSOPTS"
 alias lsal="${LS:-ls} -lahF $LSOPTS"
 alias lsla="${LS:-ls} -lahF $LSOPTS"
 
-alias mkd="mkdir -pv"  # makes parent directories if necessary, verbosely
+alias mkdir="mkdir -pv"  # makes parent directories if necessary, verbosely
 
 alias v="vim"  # vim
