@@ -15,10 +15,12 @@
 
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases  # load aliases
 
+shopt -s cmdhist
 shopt -s histappend  # append to history file rather than overwriting
 HISTCONTROL=ignoredups:ignorespace  # ignores in history
 HISTSIZE=10000
 HISTFILESIZE=20000
+HISTTIMEFORMAT="%h-%d %H:%M:%S   "
 
 # Keyboard shortcuts
 cdl() { cd "$@" && ls; }
@@ -61,5 +63,3 @@ NC='\[\033[0m\]'
 # }
 
 # All commands below have been appended and should be sorted.
-export WORKON_HOME=/Users/anthoho/VEnvs
-export PATH="$HOME/.cargo/bin:$PATH"
