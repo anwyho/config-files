@@ -65,7 +65,7 @@ set numberwidth=4
 set shiftwidth=4   " set how many spaces to indent
 set so=8           " set how many lines to the cursor when moving vertically
 set tabstop=4      " set how many spaces in a tab
-set textwidth=80   " set a visual marker for column
+" set textwidth=80   " set a visual marker for column
 set undodir=~/.vim/undo/
 set undolevels=1000
 set undoreload=10000
@@ -145,11 +145,11 @@ nnoremap <C-z> <NOP>
 nnoremap K <NOP>
 nnoremap <C-s> :w
 nnoremap q: :q
+nnoremap :W :w
+nnoremap :Q :q
+nnoremap :nu :set nu! rnu!
 
 " COMMAND MODE
-cnoremap W w
-cnoremap Q q
-cnoremap nu set nu! rnu!
 
 " Sudo save
 " cnoremap w!! w !sudo tee > /dev/null %<CR>
