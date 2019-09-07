@@ -54,9 +54,20 @@ ke() { kubectl exec -it "$@" -- /bin/bash ; }
 
 # Git
 alias g="git"
+alias gb="git branch"
+alias gc="git checkout"
+alias gcm="git commit"
+alias gcmm="git commit -m"
+alias gcb="git checkout -b"
+alias gd="git diff"
 alias gf="git fetch"
+alias ga="git add"
 alias gaa="git add -A"
 alias gs="git status"
+alias gst="git stash"
+alias gsts="git stash save"
+alias gstp="git stash pop"
+alias gl="git lg"
 
 # Rust
 alias rust-help="(sleep 3 && open http://localhost:3000 &) && mdbook serve"

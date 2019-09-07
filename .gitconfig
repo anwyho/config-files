@@ -19,6 +19,7 @@
 	whitespace = red reverse
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	editor = vim
 [user]
 	email = anwyho@gmail.com
 [alias]
