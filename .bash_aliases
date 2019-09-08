@@ -72,6 +72,17 @@ alias gsts="git stash save"
 alias gstp="git stash pop"
 alias gl="git lg"
 
+# Go
+go-get-help() {
+    mkdir -p ${HOME}/workspace/ws_go
+    pushd ${HOME}/workspace/ws_go
+    git clone https://github.com/mmcgrana/gobyexample.git
+    go get github.com/russross/blackfriday
+    ./gobyexample/tools/build
+    open ./gobyexample/public/index.html
+}
+alias go-help="open ${HOME}/workspace/ws_go/gobyexample/public/index.html || go-get-help"
+
 # Rust
 alias rust-help="(sleep 3 && open http://localhost:3000 &) && mdbook serve"
 
@@ -84,13 +95,13 @@ alias YT="youtube-viewer"
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-alias senv="env |sort"
-
 cdl() { cd "$@" && ls; }
 cdls() { cd "$@" && ls; }
 cdla() { cd "$@" && ls -a; }
 cdlal() { cd "$@" && ls -lahF; }
 cdlla() { cd "$@" && ls -lahF; }
+
+alias senv="env |sort"
 
 # Overwrite default variables
 command -v highlight >/dev/null && CAT_TYPE=highlight
