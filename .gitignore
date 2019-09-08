@@ -5,6 +5,7 @@
 !.gitignore
 !.profile
 !.vimrc
+!setup.bash
 
 # Only get VS Code settings
 !.vscode/
