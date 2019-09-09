@@ -17,11 +17,11 @@ alias sp="source ~/.bash_profile"
 # Kubernetes
 kd() {
     # Opens Kubernetes dashboard and copies bearer token into clipboard.
-    printf "Opening Kubernetes dashboard..."
+    printf "Opening Kubernetes dashboard...\n"
 
     SECRET_NAME=default-token-m65mb
-    [[ $(uname -s) == "Darwin*" ]] && copy=pbcopy
-    [[ $(uname -s) == "Linux*" ]] && copy=xclip
+    [[ $(uname -s) == "Darwin*" ]] && copy="pbcopy"
+    [[ $(uname -s) == "Linux*" ]] && copy="xclip -selection c"
 
     # Pull dashboard (fail silently)
     kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml 2>/dev/null &
@@ -34,7 +34,7 @@ kd() {
         |sed 's/token:      //' \
         |${copy} \
         && kubectl proxy \
-        || printf "Failed to get token."
+        || printf "Failed to get token.\n"
 }
 alias kapf="kubectl apply -f"
 alias kdl="kubectl delete"
