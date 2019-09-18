@@ -111,10 +111,10 @@ nmap <leader>w :w!<cr>
 
 " MOVEMENT
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
 
 " TABS
 " Tab command aliases
@@ -147,7 +147,9 @@ nnoremap <C-s> :w
 nnoremap q: :q
 nnoremap :W :w
 nnoremap :Q :q
-nnoremap :nu :set nu! rnu!
+nnoremap :nu :set nu! rnu!  " toggle line numbers
+nnoremap :spell :set spell!  " toggle spellcheck
+nnoremap :wrap :set wrap!  " toggle wrap
 
 " COMMAND MODE
 
@@ -163,8 +165,8 @@ nnoremap :nu :set nu! rnu!
 " inoremap ' ''<esc>ha
 " inoremap " ""<esc>ha
 
-inoremap jj <ESC>jj
-inoremap kk <ESC>kk
+" inoremap jj <ESC>jj
+" inoremap kk <ESC>kk
 
 " VISUAL MODE
 " Visual mode pressing * or # searches for the current selection

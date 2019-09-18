@@ -84,7 +84,7 @@ go-get-help() {
 alias go-help="open ${HOME}/workspace/ws_go/gobyexample/public/index.html || go-get-help"
 
 # Rust
-alias rust-help="(sleep 3 && open http://localhost:3000 &) && mdbook serve"
+alias rust-help="(sleep 3 && open http://localhost:3000 &) && pushd ~/workspace/ws_rust/rust-by-example && mdbook serve; popd"
 
 # YoutubeDL
 alias yt="youtube-dl --add-metadata -ic"  # download video link
