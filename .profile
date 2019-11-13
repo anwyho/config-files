@@ -47,3 +47,9 @@ export PS1="${GREEN}${DATETIME_FORMAT}: ${DIM}\H\n${N}${CYAN}${BOLD}\u @ \W${N}$
 
 # All commands below have been appended and should be organized.
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ant/workspace/google-cloud-sdk/path.bash.inc' ]; then . '/Users/ant/workspace/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ant/workspace/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/ant/workspace/google-cloud-sdk/completion.bash.inc'; fi
