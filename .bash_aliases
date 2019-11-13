@@ -12,6 +12,7 @@ alias brc="vim ~/.bashrc"
 alias bal="vim ~/.bash_aliases"
 alias bpr="vim ~/.bash_profile"
 alias pro="vim ~/.profile"
+alias sco="vim ~/.ssh/config"
 alias sp="source ~/.bash_profile"
 
 # Kubernetes
@@ -48,6 +49,7 @@ alias kdlsc="kubectl delete secret"
 alias kds="kubectl describe"
 alias kdsp="kubectl describe deployment"
 alias kdsj="kubectl describe job"
+alias kdsn="kubectl describe node"
 alias kdsp="kubectl describe pod"
 alias kdss="kubectl describe service"
 alias kdssc="kubectl describe secret"
@@ -56,6 +58,7 @@ alias kcj="kubectl get cronjobs"
 alias kgd="kubectl get deployments"
 alias kgj="kubectl get jobs"
 alias kgp="kubectl get pods"
+alias kgn="kubectl get nodes"
 alias kgs="kubectl get services"
 alias kgsc="kubectl get secrets"
 alias kl="kubectl log"
@@ -111,6 +114,9 @@ cdlla() { cd "$@" && ls -lahF; }
 
 alias senv="env |sort"
 
+# View SSH Hosts
+alias sshs="\\cat ~/.ssh/config | grep \"Host \""
+
 # Overwrite default variables
 command -v highlight >/dev/null && CAT_TYPE=highlight
 command -v gls >/dev/null && LS=gls && LSOPTS="--color=auto --group-directories-first"
@@ -130,6 +136,17 @@ alias lsla="${LS:-ls} -lahF $LSOPTS"
 alias mkdir="mkdir -pv"  # makes parent directories if necessary, verbosely
 
 alias v="vim"  # vim
+
+
+# Atlas Health
+match2() {
+    cd ~/workspace/ws_atlas_health/atlas-match2 
+    tree --matchdirs -I "match2|__pycache__|tests"
+    source ./match2/bin/activate
+    if [[ $1 == "-p" ]]; then
+        charm .
+    fi
+}
 
 # Just MBRDNA things
 alias task="(taskell -v 2>/dev/null 1>/dev/null && taskell) || (printf 'taskell is not installed.\n' && exit 1)"
