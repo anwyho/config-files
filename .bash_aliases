@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/env bash
 
 for file in ~/.aliases/**; do
-    source $file
+    . $file
 done
