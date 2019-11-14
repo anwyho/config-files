@@ -1,0 +1,11 @@
+#!/bin/env sh
+
+# Atlas Health
+match2() {
+    cd ~/workspace/ws_atlas_health/atlas-match2 
+    tree --matchdirs -I "match2|__pycache__|tests"
+    source ./match2/bin/activate
+    if [[ $1 == "-p" ]]; then
+        charm .
+    fi
+}

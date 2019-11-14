@@ -1,0 +1,6 @@
+#!/bin/env sh
+
+# YoutubeDL
+alias yt="youtube-dl --add-metadata -ic"  # download video link
+alias yta="youtube-dl --add-metadata -xic"  # download only audio
+alias YT="youtube-viewer"

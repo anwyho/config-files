@@ -1,0 +1,5 @@
+#!/bin/env sh
+
+# Just MBRDNA things
+alias task="(taskell -v 2>/dev/null 1>/dev/null && taskell) || (printf 'taskell is not installed.\n' && exit 1)"
+alias btpd="python3 ~/workspace/build_tag_push_docker.py"

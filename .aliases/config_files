@@ -1,0 +1,10 @@
+#!/bin/env sh
+
+# File shortcuts
+alias vrc="vim ~/.vimrc"
+alias brc="vim ~/.bashrc"
+alias bal="vim ~/.bash_aliases"
+alias bpr="vim ~/.bash_profile"
+alias pro="vim ~/.profile"
+alias sco="vim ~/.ssh/config"
+alias sp="source ~/.bash_profile"

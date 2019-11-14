@@ -1,0 +1,121 @@
+#!/bin/env bash
+
+# Kubernetes
+kd() {
+    # Opens Kubernetes dashboard and copies bearer token into clipboard.
+    printf "Opening Kubernetes dashboard...\n"
+
+    SECRET_NAME=default-token-m65mb
+    [[ $(uname -s) == "Darwin*" ]] && copy="pbcopy"
+    [[ $(uname -s) == "Linux*" ]] && copy="xclip -selection c"
+
+    # Pull dashboard (fail silently)
+    kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml 2>/dev/null &
+    # Open in browser
+    (sleep 5 && open http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login &)
+    sleep 3
+    # Copy token to clipboard
+    kubectl describe secret/${SECRET_NAME} \
+        |grep token: \
+        |sed 's/token:      //' \
+        |${copy} \
+        && kubectl proxy \
+        || printf "Failed to get token.\n"
+}
+ke() { kubectl exec -it "$@" -- /bin/bash ; }
+alias kaf="kubectl apply -f"
+alias kci="kubectl cluster-info"
+alias kdl="kubectl delete"
+alias kdld="kubectl delete deployment"
+alias kdlj="kubectl delete job"
+alias kdlp="kubectl delete pod"
+alias kdls="kubectl delete service"
+alias kdlsc="kubectl delete secret"
+alias kds="kubectl describe"
+alias kdsp="kubectl describe deployment"
+alias kdsj="kubectl describe job"
+alias kdsn="kubectl describe node"
+alias kdsp="kubectl describe pod"
+alias kdss="kubectl describe service"
+alias kdssc="kubectl describe secret"
+alias kg="kubectl get"
+alias kcj="kubectl get cronjobs"
+alias kgd="kubectl get deployments"
+alias kgj="kubectl get jobs"
+alias kgp="kubectl get pods"
+alias kgn="kubectl get nodes"
+alias kgs="kubectl get services"
+alias kgsc="kubectl get secrets"
+alias kl="kubectl log"
+alias klf="kubectl log -f"
+alias kp="kubectl proxy"
+alias kpf="kubectl port-forward"
+
+
+# Staging and production contexts
+pcontext="kubernetes-admin@kubernetes"
+scontext="kubernetes-admin@kubernetes"
+
+pke() { kubectl exec -it "$@" --context=$pcontext -- /bin/bash ; } 
+alias pk="kubectl --context=$pcontext"
+alias pka="kubectl apply --context=$pcontext"
+alias pkaf="kubectl apply --context=$pcontext -f"
+alias pkat="kubetl attach --context=$pcontext"
+alias pkci="kubectl cluster-info --context=$pcontext"
+alias pkdl="kubectl delete --context=$pcontext"
+alias pkdld="kubectl delete deployment --context=$pcontext"
+alias pkdlj="kubectl delete job --context=$pcontext"
+alias pkdlp="kubectl delete pod --context=$pcontext"
+alias pkdls="kubectl delete service --context=$pcontext"
+alias pkdlsc="kubectl delete secret --context=$pcontext"
+alias pkds="kubectl describe --context=$pcontext"
+alias pkdsp="kubectl describe deployment --context=$pcontext"
+alias pkdsj="kubectl describe job --context=$pcontext"
+alias pkdsn="kubectl describe node --context=$pcontext"
+alias pkdsp="kubectl describe pod --context=$pcontext"
+alias pkdss="kubectl describe service --context=$pcontext"
+alias pkdssc="kubectl describe secret --context=$pcontext"
+alias pkg="kubectl get --context=$pcontext"
+alias pkcj="kubectl get cronjobs --context=$pcontext"
+alias pkgd="kubectl get deployments --context=$pcontext"
+alias pkgj="kubectl get jobs --context=$pcontext"
+alias pkgn="kubectl get nodes --context=$pcontext"
+alias pkgp="kubectl get pods --context=$pcontext"
+alias pkgs="kubectl get services --context=$pcontext"
+alias pkgsc="kubectl get secrets --context=$pcontext"
+alias pkl="kubectl logs --context=$pcontext"
+alias pklf="kubectl logs  --context=$pcontext -f"
+alias pkp="kubectl proxy --context=$pcontext"
+alias pkpf="kubectl port-forward --context=$pcontext"
+
+ske() { kubectl exec -it "$@" --context=$scontext -- /bin/bash ; } 
+alias sk="kubectl --context=$scontext"
+alias ska="kubectl apply --context=$scontext"
+alias skaf="kubectl apply --context=$scontext -f"
+alias skat="kubetl attach --context=$scontext"
+alias skci="kubectl cluster-info --context=$scontext"
+alias skdl="kubectl delete --context=$scontext"
+alias skdld="kubectl delete deployment --context=$scontext"
+alias skdlj="kubectl delete job --context=$scontext"
+alias skdlp="kubectl delete pod --context=$scontext"
+alias skdls="kubectl delete service --context=$scontext"
+alias skdlsc="kubectl delete secret --context=$scontext"
+alias skds="kubectl describe --context=$scontext"
+alias skdsp="kubectl describe deployment --context=$scontext"
+alias skdsj="kubectl describe job --context=$scontext"
+alias skdsn="kubectl describe node --context=$scontext"
+alias skdsp="kubectl describe pod --context=$scontext"
+alias skdss="kubectl describe service --context=$scontext"
+alias skdssc="kubectl describe secret --context=$scontext"
+alias skg="kubectl get --context=$scontext"
+alias skcj="kubectl get cronjobs --context=$scontext"
+alias skgd="kubectl get deployments --context=$scontext"
+alias skgj="kubectl get jobs --context=$scontext"
+alias skgn="kubectl get nodes --context=$scontext"
+alias skgp="kubectl get pods --context=$scontext"
+alias skgs="kubectl get services --context=$scontext"
+alias skgsc="kubectl get secrets --context=$scontext"
+alias skl="kubectl logs --context=$scontext"
+alias sklf="kubectl logs  --context=$scontext -f"
+alias skp="kubectl proxy --context=$scontext"
+alias skpf="kubectl port-forward --context=$scontext"

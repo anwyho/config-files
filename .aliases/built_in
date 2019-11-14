@@ -1,0 +1,34 @@
+#!/bin/env sh
+
+# Built-In
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+cdl() { cd "$@" && ls; }
+cdls() { cd "$@" && ls; }
+cdla() { cd "$@" && ls -a; }
+cdlal() { cd "$@" && ls -lahF; }
+cdlla() { cd "$@" && ls -lahF; }
+
+alias senv="env |sort"
+
+# View SSH Hosts
+alias sshs="\\cat ~/.ssh/config | grep \"Host \""
+
+# Overwrite default variables
+command -v highlight >/dev/null && CAT_TYPE=highlight
+alias cat="${CAT_TYPE:-cat} --out-format=ansi"  # print file with syntax highlighting.
+
+command -v gls >/dev/null && LS=gls && LSOPTS="--color=auto --group-directories-first"
+alias grep="grep --color=auto"  # highlight desired sequence.
+
+alias ls="${LS:-ls} -h $LSOPTS"
+alias sl="${LS:-ls} -h $LSOPTS"
+alias la="${LS:-ls} -ah $LSOPTS"
+alias lsa="${LS:-ls} -ahF $LSOPTS"
+alias lsl="${LS:-ls} -lhF $LSOPTS"
+alias lsal="${LS:-ls} -lahF $LSOPTS"
+alias lsla="${LS:-ls} -lahF $LSOPTS"
+
+alias mkdir="mkdir -pv"  # makes parent directories if necessary, verbosely
+

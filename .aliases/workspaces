@@ -1,0 +1,5 @@
+#!/bin/env sh
+
+# Workspaces
+alias dws="cd ~/Dropbox/workspace/"
+alias ws="cd ~/workspace/"

@@ -1,0 +1,18 @@
+#!/bin/env sh
+
+# Git
+alias g="git"
+alias ga="git add"
+alias gaa="git add -A"
+alias gb="git branch"
+alias gco="git checkout"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gcb="git checkout -b"
+alias gd="git diff"
+alias gf="git fetch"
+alias gl="git lg"
+alias gs="git status"
+alias gst="git stash"
+alias gsts="git stash save"
+alias gstp="git stash pop"
