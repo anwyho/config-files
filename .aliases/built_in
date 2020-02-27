@@ -16,8 +16,9 @@ alias senv="env |sort"
 alias sshs="\\cat ~/.ssh/config | grep \"Host \""
 
 # Overwrite default variables
-command -v highlight >/dev/null && CAT_TYPE=highlight
-alias cat="${CAT_TYPE:-cat} --out-format=ansi"  # print file with syntax highlighting.
+command -v bat >/dev/null && CAT_TYPE=bat
+alias cat="${CAT_TYPE:-cat}"  # print file with syntax highlighting.
+alias cat="bat"
 
 command -v gls >/dev/null && LS=gls && LSOPTS="--color=auto --group-directories-first"
 alias grep="grep --color=auto"  # highlight desired sequence.

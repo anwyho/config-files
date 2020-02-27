@@ -1,11 +1,20 @@
 #!/bin/env sh
 
 # Atlas Health
-match2() {
-    cd ~/workspace/ws_atlas_health/atlas-match2 
-    tree --matchdirs -I "match2|__pycache__|tests"
-    source ./match2/bin/activate
+_start_env() {
+    source ./venv/bin/activate
+    tree --matchdirs -I "venv|__pycache__|tests"
     if [[ $1 == "-p" ]]; then
         charm .
     fi
+}
+
+match2() {
+    pushd ~/workspace/atlas_health/match2 >/dev/null 2>1
+    _start_env $@
+}
+
+flow() {
+    pushd ~/workspace/atlas_health/flow >/dev/null 2>1
+    _start_env $@
 }
