@@ -33,7 +33,7 @@ set incsearch      "
 set ignorecase     " ignore case when searching
 set lazyredraw     " only redraw lines during macros when necessary (performance)
 set magic          " for regex
-set noantialias
+" set noantialias  " commented out for nvim
 set nobackup
 set noerrorbells   " no error bells
 set noswapfile
@@ -52,7 +52,7 @@ set undofile       " persistent undos
 set undodir=/tmp/.vim-undo-dir " set directory for undo information
 " set wrap           " wrap lines
 
-set clipboard^=unnamed,unamedplus " set clipboard to vim buffer
+" set clipboard^=unnamed,unamedplus " set clipboard to vim buffer  " commented out for nvim
 set encoding=utf-8
 set guioptions-=r  " disables scrollbars
 set guioptions-=R  " "
@@ -66,6 +66,9 @@ set shiftwidth=4   " set how many spaces to indent
 set so=8           " set how many lines to the cursor when moving vertically
 set tabstop=4      " set how many spaces in a tab
 " set textwidth=80   " set a visual marker for column
+set textwidth=100 
+set wrapmargin=0
+set formatoptions-=t
 set undodir=~/.vim/undo/
 set undolevels=1000
 set undoreload=10000
