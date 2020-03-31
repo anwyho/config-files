@@ -48,6 +48,7 @@ set smartcase      " when searching, be smart about case
 set smarttab       " be smart about tabbing
 set splitbelow     " splits down
 set splitright     " splits right
+set termguicolors  " enable true colors support
 set undofile       " persistent undos
 set undodir=/tmp/.vim-undo-dir " set directory for undo information
 " set wrap           " wrap lines
@@ -89,13 +90,13 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 set background=dark
 
-let base16colorspace=256
+" let base16colorspace=256
 
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
-
+highlight LineNr guibg=NONE
 
 
 "
@@ -200,6 +201,8 @@ if has("autocmd")
     autocmd BufWritePre .txt,.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
+autocmd VimEnter * silent exec "! echo -ne '\e[1 q'"
+
 augroup vimrcEx
   autocmd!
 
@@ -251,21 +254,24 @@ endif
 "   syntax enable
 " To remove a plugin, comment out the plugin and 
 "   :PlugClean
-call plug#begin('~/.vim/bundle')
+call plug#begin('~/.vim/plugged')
 " THEMES
 " Plug 'arcticicestudio/nord-vim'
 Plug 'chriskempson/base16-vim'
 " Plug 'ayu-theme/ayu-vim'
+" Plug 'nightsense/snow'
+Plug 'nightsense/carbonized'
 
 
 " powerline variant
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 
 "filesystem explorer (loads NERDTree on demand)
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 " most-recently-used files
-Plug 'yegappan/mru', {'on': 'MRU'}
+" Plug 'yegappan/mru', {'on': 'MRU'}
 
 " git gutter
 Plug 'airblade/vim-gitgutter', {'on': 'GitGutterToggle'}
@@ -274,9 +280,14 @@ Plug 'airblade/vim-gitgutter', {'on': 'GitGutterToggle'}
 " better indentation
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 
+" Terminus
+" better terminal integration
+" specifically for changing carets in Vim from ZSH
+Plug 'wincent/terminus'
+
 " To Research:
 " ??
-Plug 'vim-scripts/a.vim'
+" Plug 'vim-scripts/a.vim'
 
 " yank stack
 " Plug 'maxbrunsfeld/vim-yankstack', {'on': ''}
@@ -285,13 +296,13 @@ Plug 'vim-scripts/a.vim'
 " Plug 'Valloric/YouCompleteMe', {'for': 'python', 'do': './install.py'}
 
 " visual star search
-Plug 'bronson/vim-visual-star-search'
+" Plug 'bronson/vim-visual-star-search'
 
 " git commands
 Plug 'tpope/vim-fugitive'
 
 " fuzzy file search
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 
 " better tab completion
 Plug 'ervandew/supertab'
@@ -308,20 +319,50 @@ call plug#end()
 " P L U G I N  C O N F I G S
 "
 
+" Colorscheme
+set background=dark
+" colorscheme base16-default-dark
+
+
 " Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='angr'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_theme='angr'
 
 " Ayu-theme
-set termguicolors     " enable true colors support
 " let ayucolor="light"  " for light version of theme
 " let ayucolor="mirage" " for mirage version of theme
-let ayucolor="dark"   " for dark version of theme
-" colorscheme ayu
+" let ayucolor="dark"   " for dark version of theme
 
 " Git Gutter
-" let g:gitgutter_enabled=0
+set updatetime=100
+" set signcolumn=yes
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
+
+" Lightline.vim
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'carbonized_dark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ 'mode_map': {
+      \ 'n' : ' N',
+      \ 'i' : ' I',
+      \ 'R' : ' R',
+      \ 'v' : ' V',
+      \ 'V' : 'VL',
+      \ "\<C-v>": 'VB',
+      \ 'c' : ' C',
+      \ 's' : ' S',
+      \ 'S' : 'SL',
+      \ "\<C-s>": 'SB',
+      \ 't': ' T',
+      \ },
+      \ }
 
 " MRU
 let MRU_Max_Entries = 400
