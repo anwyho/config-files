@@ -13,7 +13,7 @@
 
 [[ -z $PS1 ]] && return  # if not running interactively, quit
 
-[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases  # load aliases
+[[ -f ~/.aliasrc ]] && . ~/.aliasrc  # load aliases
 
 shopt -s cmdhist
 shopt -s histappend  # append to history file rather than overwriting
@@ -21,6 +21,29 @@ HISTCONTROL=ignoredups:ignorespace  # ignores in history
 HISTSIZE=10000
 HISTFILESIZE=20000
 HISTTIMEFORMAT="%h-%d %H:%M:%S   "
+
+# Git Configs
+# Show Git branch in prompt
+git_branch() {
+    git remote -v 2>/dev/null | grep anwyho/config-files >/dev/null || \
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+# Modifying the prompt:
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# https://www.gnu.org/software/bash/manual/bashref.html#Controlling-the-Prompt
+# \u username
+# \h or \H hostname
+# \d date Wed Sep 06
+# \t or \T or \@ time (24hr vs 12hr vs 12hrw am/pm)
+CYAN="\[\e[36m\]"
+BLUE="\[\e[94m\]"
+GREEN="\[\e[92m\]"
+BOLD="\[\e[1m\]"
+DIM="\[\e[2m\]"
+ITAL="\[\e[3m\]"
+N="\[\e[0m\]"  # reverts text to normal
+DATETIME_FORMAT="\D{%a, %b %d,%l:%M:%S %p}"
+export PS1="${GREEN}${DATETIME_FORMAT}: ${DIM}\H\n${N}${CYAN}${BOLD}\u @ \W${N}${BLUE}${ITAL}\$(git_branch)${N} \$ "
 
 # virtualenvwrapper configs
 export WORKON_HOME=~/workspace/virtual_envs
