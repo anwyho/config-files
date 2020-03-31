@@ -33,3 +33,16 @@ alias lsla="${LS:-ls} -lahF $LSOPTS"
 
 alias mkdir="mkdir -pv"  # makes parent directories if necessary, verbosely
 
+cop() {
+    case "$OSTYPE" in
+        darwin*) \cat $1 |pbcopy ;;
+        linux*) xclip -selection c $1 ;;
+        *) echo "Unrecognized OSTYPE" && exit 1 ;;
+    esac
+    # if [[ "$OSTYPE" == "darwin"* ]]; then
+
+    # elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+
+    # fi
+}
+

@@ -1,10 +1,13 @@
 #!/bin/env sh
 
 # File shortcuts
-alias vrc="vim ~/.vimrc"
+alias arc="vim ~/._aliasrc"
 alias brc="vim ~/.bashrc"
-alias bal="vim ~/.bash_aliases"
+alias vrc="vim ~/.vimrc"
+alias zrc="vim ~/.zshrc"
 alias bpr="vim ~/.bash_profile"
 alias pro="vim ~/.profile"
 alias sco="vim ~/.ssh/config"
-alias sp="source ~/.bash_profile"
+alias sbp="source ~/.bash_profile"
+alias rez="exec zsh"
+
