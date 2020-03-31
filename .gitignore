@@ -1,13 +1,15 @@
 /*
 !.aliases/
+!.aliasrc
 !.bash_aliases
 !.bash_profile
 !.bashrc
 !.condarc
 !.gitignore
 !.profile
-!.vimrc
 !setup.bash
+!.vimrc
+!.zshrc
 
 # Only get VS Code settings
 !.vscode/
