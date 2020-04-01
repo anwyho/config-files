@@ -1,8 +1,8 @@
 [user]
 	name = Anthony W. Ho
-	email = anthony@atlas.health
+	email = anwyho@gmail.com
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	editor = vim
