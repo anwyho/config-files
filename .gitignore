@@ -11,6 +11,13 @@
 !.vimrc
 !.zshrc
 
+# Only get Karabiner config
+!.config/
+.config/*
+!.config/karabiner
+.config/karabiner/*
+!.config/karabiner/karabiner.json
+
 # Only get VS Code settings
 !.vscode/
 .vscode/*
