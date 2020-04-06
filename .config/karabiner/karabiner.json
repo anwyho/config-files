@@ -65,7 +65,7 @@
                                 "key_code": "f10"
                             },
                             "to": {
-                                "key_code": "apple_display_brightness_decrement"
+                                "consumer_key_code": "volume_decrement"
                             }
                         },
                         {
