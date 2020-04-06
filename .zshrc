@@ -36,9 +36,9 @@ function git_branch() {
   if [[ -n $branch ]]; then
     if has_unstaged; then
       [[ $1 != "--no-flag" ]] && branch="${branch}${GIT_DIRTY_BRANCH_TAG:-*}"
-      branch="${GIT_DIRTY_PREFIX:-%f%F{167\}(}${branch}${GIT_DIRTY_SUFFIX:-)%f}"
+      branch=" ${GIT_DIRTY_PREFIX:-%f%F{253\}git:}${branch}${GIT_DIRTY_SUFFIX:-%f}"
     else
-      branch="${GIT_CLEAN_PREFIX:-%f%F{green\}(}${branch}${GIT_CLEAN_SUFFIX:-)%f}"
+      branch=" ${GIT_CLEAN_PREFIX:-%f%F{115\}git:}${branch}${GIT_CLEAN_SUFFIX:-%f}"
     fi  # has_unstaged
   fi  # branch exists
   echo $branch
@@ -139,12 +139,12 @@ set -o prompt_subst
 function elapsed_time() { [[ $ZSH_E_TIME -ne -1 ]] && echo "↳ $(fmt_sec $ZSH_E_TIME)" ; }
 function invitation() { echo "$(notes) ❯❯❯" ; }
 function return_code() { [[ $ZSH_E_TIME -ne -1 ]] && echo "%(?.%F{green}✔.%F{red}✖%?)%f" ; }
-function venv_name() { [[ -n "$VIRTUAL_ENV" ]] && echo '('${VIRTUAL_ENV:t}') ' ; }
+function venv_name() { [[ -n "$VIRTUAL_ENV" ]] && echo " py:${VIRTUAL_ENV:t}" ; }
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 fmtd_date="%F{38}%D{%a} %F{117}%D{%b %d} %F{216}%D{%H:%M:%S} %F{229}%D{%Z}"
 # return_code="%(?.%F{green}✔.%F{red}%?↲)%f"  # Non-zero return code of previous command
 # Must be in single quotes to recompute values
-PROMPT='%E${fmtd_date} %F{grey}@%f %F{193}%~%f $(git_branch) $(venv_name)
+PROMPT='%E${fmtd_date} %F{grey}@%f %F{193}%~%f$(git_branch)$(venv_name)
 %F{24}%(!.%F{red}root#%f.$(invitation)) %F{white}'
 RPS1='%F{243}$(elapsed_time)%f $(return_code)'
 
@@ -171,9 +171,14 @@ set -o auto_cd
 set -o correct  # prompt suggestions for mispelled commands
 
 
-###########
-# History #
-###########
+######################
+# Path Modifications #
+######################
+
+# Set up Go environment
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+mkdir -p $GOPATH/{src,bin}
 
 
 
