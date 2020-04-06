@@ -182,6 +182,9 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " A U T O  E D I T S
 "
 
+" Give Zsh RC file Shell syntax highlighting
+autocmd BufEnter *.zshrc :setlocal filetype=sh
+
 " Automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
