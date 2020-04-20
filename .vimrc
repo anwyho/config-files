@@ -288,6 +288,9 @@ Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 " specifically for changing carets in Vim from ZSH
 Plug 'wincent/terminus'
 
+" WakaTime
+Plug 'wakatime/vim-wakatime'
+
 " To Research:
 " ??
 " Plug 'vim-scripts/a.vim'
