@@ -52,6 +52,8 @@ set termguicolors  " enable true colors support
 set undofile       " persistent undos
 set undodir=/tmp/.vim-undo-dir " set directory for undo information
 " set wrap           " wrap lines
+" set list         " Shows hidden characters
+set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
 
 " set clipboard^=unnamed,unamedplus " set clipboard to vim buffer  " commented out for nvim
 set encoding=utf-8
@@ -70,7 +72,6 @@ set tabstop=4      " set how many spaces in a tab
 set textwidth=100 
 set wrapmargin=0
 set formatoptions-=t
-set undodir=~/.vim/undo/
 set undolevels=1000
 set undoreload=10000
 
@@ -89,10 +90,7 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 "
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
-" Fast saving
-nmap <leader>w :w!<cr>
+noremap <silent> <leader><cr> :noh<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
@@ -111,13 +109,19 @@ cabbrev tp tabprev
 cabbrev tn tabnext
 cabbrev tf tabfirst
 cabbrev tl tablast
+cabbrev W w
+cabbrev Wq wq
+cabbrev Q q
+cabbrev nu set nu! rnu!  " toggle line numbers
+cabbrev spell set spell!  " toggle spellcheck
+cabbrev wrap set wrap!  " toggle wrap
 
 " NORMAL MODE
 " Bind K to search word under cursor
 " nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Switch between the last two files
-nnoremap <leader><leader> <c-^>
+nnoremap <leader>p <c-^>
 
 " Quickly open a buffer for scribble
 " Quickly open a markdown buffer for scribble
@@ -132,36 +136,16 @@ nnoremap <leader>x :e ~/.buffer.md<cr>
 " Prevent weird behavior
 nnoremap <C-z> <NOP>
 nnoremap K <NOP>
-nnoremap <C-s> :w
 nnoremap q: :q
-nnoremap :W :w
-nnoremap :Q :q
-nnoremap :nu :set nu! rnu!  " toggle line numbers
-nnoremap :spell :set spell!  " toggle spellcheck
-nnoremap :wrap :set wrap!  " toggle wrap
 
 " COMMAND MODE
 
 " Sudo save
-" cnoremap w!! w !sudo tee > /dev/null %<CR>
+cnoremap w!! w !sudo tee > /dev/null %<CR>
 
 " INSERT MODE
-" Map auto complete of (, ", ', [
-" inoremap ( ()<esc>ha
-" inoremap [ []<esc>ha
-" inoremap { {}<esc>ha
-" inoremap < <><esc>ha
-" inoremap ' ''<esc>ha
-" inoremap " ""<esc>ha
-
-" inoremap jj <ESC>jj
-" inoremap kk <ESC>kk
-
-" VISUAL MODE
-" Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
+inoremap jj <ESC>jj
+inoremap kk <ESC>kk
 
 "
 " A U T O  E D I T S
@@ -186,16 +170,13 @@ fun! CleanExtraSpaces()
 endfun
 
 if has("autocmd")
-    autocmd BufWritePre .txt,.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+    autocmd BufWritePre *.txt,*.js,*.md,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
 autocmd VimEnter * silent exec "! echo -ne '\e[1 q'"
 
 augroup vimrcEx
   autocmd!
-
-  " For all text files set 'textwidth' to 80 characters.
-  autocmd FileType text setlocal textwidth=80
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it for commit messages, when the position is invalid, or when
@@ -283,6 +264,11 @@ Plug 'junegunn/goyo.vim'
 " Pencil
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
+Plug 'reedes/vim-lexical'
+
+" Limelight
+" highlight current paragraph and dim all other paragraphs
+Plug 'junegunn/limelight.vim'
 
 " Quick movement within vim
 Plug 'easymotion/vim-easymotion'
@@ -290,7 +276,12 @@ Plug 'easymotion/vim-easymotion'
 " better tab completion
 Plug 'ervandew/supertab'
 
+" DeliMate
+" auto-closing of closables
+Plug 'Raimondi/delimitMate'
 
+" UndoTree
+Plug 'mbbill/undotree'
 
 
 " To Research:
@@ -343,15 +334,34 @@ highlight PmenuSel ctermbg=black ctermfg=green
 highlight VertSplit ctermbg=black ctermfg=grey
 
 function! Prose() 
-    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
-    call pencil#init()
-    colorscheme pencil
+    " Download thesaurus for vim-lexical
+    if empty(glob('~/.vim/thesaurus/mthesaur.txt'))
+      silent !curl -fLo ~/.vim/thesaurus/mthesaur.txt --create-dirs
+        \ https://raw.githubusercontent.com/zeke/moby/master/words.txt
+    endif
+    set rulerformat=%-12.(%l,%c%V%)%{PencilMode()}\ %P
+    set statusline=%<%f\ %h%m%r%w\ \ %{PencilMode()}\ %=\ col\ %c%V\ \ line\ %l\,%L\ %P
+
     let g:pencil#wrapModeDefault='soft'
     let g:pencil_terminal_italics = 1
     set wrap
-    nnoremap D d/[.?!\n]/e<CR>x:noh<CR>:<CR>
-    set statusline=%<%f\ %h%m%r%w\ \ %{PencilMode()}\ %=\ col\ %c%V\ \ line\ %l\,%L\ %P
-    set rulerformat=%-12.(%l,%c%V%)%{PencilMode()}\ %P
+    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
+    call pencil#init()
+    call lexical#init()
+    " Limelight
+    colorscheme pencil
+
+    " delete a sentence (to .!?)
+    nnoremap <silent> D d/[.?!\n]/e<CR>x:noh<CR>:<CR>
+    " force top correction on most recent misspelling
+    nnoremap <buffer> <c-s> [s1z=<c-o>
+    inoremap <buffer> <c-s> <c-g>u<Esc>[s1z=`]A<c-g>u
+
+    " replace common punctuation
+    iabbrev <buffer> -- –
+    iabbrev <buffer> --- —
+    iabbrev <buffer> << «
+    iabbrev <buffer> >> »
 endfunction
 " automatically initialize buffer by filetype
 autocmd FileType markdown,mkd,text call Prose()
@@ -369,7 +379,7 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " EasyMotion
-map <Leader> <Plug>(easymotion-prefix)
+map <silent> <leader> <Plug>(easymotion-prefix)
 
 " SuperTab
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
@@ -385,10 +395,19 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 " let ayucolor="mirage" " for mirage version of theme
 " let ayucolor="dark"   " for dark version of theme
 
+" Undotree
+nnoremap <silent> <leader>u :UndotreeToggle<CR>
+
 " Git Gutter
 set updatetime=100
-" set signcolumn=yes
+set signcolumn=yes
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
+set signcolumn=yes
+highlight SignColumn ctermbg=black guibg=black
+highlight GitGutterAdd    guifg=#009900 ctermfg=2 ctermbg=black guibg=black
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3 ctermbg=black guibg=black
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1 ctermbg=black guibg=black
+autocmd BufWritePost * GitGutter
 
 
 " Lightline.vim
@@ -419,16 +438,16 @@ let g:lightline = {
 
 " MRU
 let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>D
+noremap <leader>f :MRU<CR>D
 
 " NERDTree
 let g:NERDTreeWinPos = "right"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '_pycache_']
 let g:NERDTreeWinSize=35
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>Plug 'chriskempson/base16-vim'
+nnoremap <silent> <leader>m :NERDTreeToggle<cr>
+nnoremap <leader>mb :NERDTreeFromBookmark<Space>
+nnoremap <leader>nf :NERDTreeFind<cr>
 
 " YankStack
 let g:yankstack_yank_keys = ['y', 'd']
