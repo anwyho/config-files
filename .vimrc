@@ -59,7 +59,7 @@ set guioptions-=r  " disables scrollbars
 set guioptions-=R  " "
 set guioptions-=l  " "
 set guioptions-=L  " "
-set history=1000   " set how many lines VIM will remember
+set history=10000   " set how many lines VIM will remember
 set laststatus=2   " always display status line
 set mat=2          " set how many deciseconds to blink when matching brackets
 set numberwidth=4
@@ -82,21 +82,6 @@ endtry
 
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
-
-
-"
-" A P P E A R A N C E
-"
-
-set background=dark
-
-" let base16colorspace=256
-
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-highlight LineNr guibg=NONE
 
 
 "
@@ -291,6 +276,10 @@ Plug 'wincent/terminus'
 " WakaTime
 Plug 'wakatime/vim-wakatime'
 
+" Goyo
+" distraction-free editing
+Plug 'junegunn/goyo.vim'
+
 " To Research:
 " ??
 " Plug 'vim-scripts/a.vim'
@@ -327,7 +316,36 @@ call plug#end()
 
 " Colorscheme
 set background=dark
-" colorscheme base16-default-dark
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
+colorscheme base16-default-dark
+" let base16colorspace=256
+highlight SpellBad cterm=underline ctermbg=black ctermfg=red
+highlight SpellCap cterm=underline
+highlight LineNr guibg=NONE ctermbg=none ctermfg=gray
+" highlight LineNrAbove ctermbg=none
+" highlight LineNrBelow ctermbg=none
+highlight Pmenu ctermbg=black ctermfg=white
+highlight PmenuSel ctermbg=black ctermfg=green
+highlight VertSplit ctermbg=black ctermfg=grey
+
+
+" Goyo
+function! s:goyo_enter()
+    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
+endfunction
+function! s:goyo_leave()
+    quit
+endfunction
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" SuperTab
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 
 " Airline
@@ -343,6 +361,7 @@ set background=dark
 set updatetime=100
 " set signcolumn=yes
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
+
 
 " Lightline.vim
 set noshowmode
