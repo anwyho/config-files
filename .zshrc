@@ -323,7 +323,8 @@ function git() {
     command git $@
 
     if (elementInArray $1 $gitPreAutoStatusCommands); then
-        printf "%0.s-" $( seq 1 1 $() ); echo ""
+        # printf "%0.s-" $( seq 1 1 $(tput cols) ); echo ""
+        printf "%0.s=" $( seq 1 1 72 ); echo ""
         command git status
     fi
 }
