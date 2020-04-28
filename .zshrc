@@ -69,6 +69,20 @@ function has_unstaged() {
   [[ -n $wt_status ]] && return 0 || return 1
 }
 
+echo '
+           ^^                  @@@@@@@@@@              ^^
+                  ^^        @@@@@@@@@@@@@@@@    ^^
+              --           @@@@@@@@@@@@@@@@@@          
+          __  )_) __      @@@@@@@@@@@@@@@@@@@@        ^^
+~~~~~~~~~~)_) )_) )_)~ ~~ &&&&&&&&&&&&&&&&&&&& ~~~~~~~ ~~~~~
+~        __!___!___!__  ~ ~~~~~~~~~~~~~~~~~~~~ ~       ~~  
+        ~\_ _ _ _ _ _/ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~   
+    ~   ~~~~ ~~~ ~~~~   ~    ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~
+~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~     
+      ~             ~        ~      ~      ~~   ~           
+
+                      s h i p   i t !
+'
 
 # Elapsed time functions #
 
@@ -174,6 +188,10 @@ set -o correct  # prompt suggestions for mispelled commands
 ######################
 # Path Modifications #
 ######################
+
+# Set up global pip
+# export PATH="$PATH:/Users/ant/Library/Python/3.7/bin"
+export PATH="/Users/ant/.pyenv/shims:$PATH"
 
 # Set up Go environment
 export GOPATH=$HOME/go
@@ -283,6 +301,7 @@ bindkey -M vicmd 'j' history-substring-search-down
 # default list of git commands `git status` is running after
 gitPreAutoStatusCommands=(
     'add'
+    'diff'
     'rm'
     'reset'
     'restore'
@@ -303,6 +322,7 @@ function git() {
     command git $@
 
     if (elementInArray $1 $gitPreAutoStatusCommands); then
+        printf "%0.s-" $( seq 1 1 $() ); echo ""
         command git status
     fi
 }
