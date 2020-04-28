@@ -280,6 +280,19 @@ Plug 'wakatime/vim-wakatime'
 " distraction-free editing
 Plug 'junegunn/goyo.vim'
 
+" Pencil
+Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-colors-pencil'
+
+" Quick movement within vim
+Plug 'easymotion/vim-easymotion'
+
+" better tab completion
+Plug 'ervandew/supertab'
+
+
+
+
 " To Research:
 " ??
 " Plug 'vim-scripts/a.vim'
@@ -298,9 +311,6 @@ Plug 'tpope/vim-fugitive'
 
 " fuzzy file search
 " Plug 'ctrlpvim/ctrlp.vim'
-
-" better tab completion
-Plug 'ervandew/supertab'
 
 " snippet engine & library
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -332,16 +342,34 @@ highlight Pmenu ctermbg=black ctermfg=white
 highlight PmenuSel ctermbg=black ctermfg=green
 highlight VertSplit ctermbg=black ctermfg=grey
 
+function! Prose() 
+    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
+    call pencil#init()
+    colorscheme pencil
+    let g:pencil#wrapModeDefault='soft'
+    let g:pencil_terminal_italics = 1
+    set wrap
+    nnoremap D d/[.?!\n]/e<CR>:noh<CR>:<CR>
+    set statusline=%<%f\ %h%m%r%w\ \ %{PencilMode()}\ %=\ col\ %c%V\ \ line\ %l\,%L\ %P
+    set rulerformat=%-12.(%l,%c%V%)%{PencilMode()}\ %P
+endfunction
+" automatically initialize buffer by filetype
+autocmd FileType markdown,mkd,text call Prose()
+" invoke manually by command for other file types
+command! -nargs=0 Prose call Prose()
 
 " Goyo
 function! s:goyo_enter()
-    highlight SpellBad cterm=underline ctermbg=black ctermfg=red
+    Prose
 endfunction
 function! s:goyo_leave()
     quit
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" EasyMotion
+map <Leader> <Plug>(easymotion-prefix)
 
 " SuperTab
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
@@ -405,3 +433,4 @@ map <leader>nf :NERDTreeFind<cr>Plug 'chriskempson/base16-vim'
 " YankStack
 let g:yankstack_yank_keys = ['y', 'd']
 
+:
