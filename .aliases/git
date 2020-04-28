@@ -1,7 +1,6 @@
 #!/bin/env sh
 
 # Git
-alias g="git"
 alias ga="git add"
 alias gaa="git add -A"
 alias gb="git branch"
@@ -21,4 +20,5 @@ alias gst="git stash"
 alias gsts="git stash save"
 alias gstp="git stash pop"
 alias gpsu="git push --set-upstream"
+alias gp="git push"
 alias branch="git rev-parse --abbrev-ref HEAD"

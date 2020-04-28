@@ -1,10 +1,8 @@
 #!/bin/env sh
 
-alias v="vi"
-alias nv="nvim" 
-alias goyo="nvim -c \"Goyo\""
-alias goyov="vim -c \"Goyo\""
-
+alias v="nvim"
+alias g="nvim -c \"Goyo\""
+alias gv="vim -c \"Goyo\""
 
 
 
