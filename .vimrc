@@ -349,7 +349,7 @@ function! Prose()
     let g:pencil#wrapModeDefault='soft'
     let g:pencil_terminal_italics = 1
     set wrap
-    nnoremap D d/[.?!\n]/e<CR>:noh<CR>:<CR>
+    nnoremap D d/[.?!\n]/e<CR>x:noh<CR>:<CR>
     set statusline=%<%f\ %h%m%r%w\ \ %{PencilMode()}\ %=\ col\ %c%V\ \ line\ %l\,%L\ %P
     set rulerformat=%-12.(%l,%c%V%)%{PencilMode()}\ %P
 endfunction
