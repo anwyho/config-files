@@ -11,6 +11,7 @@ cdlal() { cd "$@" && ls -lahF; }
 cdlla() { cd "$@" && ls -lahF; }
 
 alias senv="env |sort"
+alias dim="echo $(tput cols)x$(tput lines)"
 
 # View SSH Hosts
 alias sshs="\\cat ~/.ssh/config | grep \"Host \""
