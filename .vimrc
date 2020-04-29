@@ -355,8 +355,8 @@ function! Prose()
     colorscheme pencil
 
     " delete a sentence (to .!?)
-    nnoremap <silent> C d/[.?!\n]/e<CR>:noh<CR>s
-    nnoremap <silent> D d/[.?!\n]/e<CR>:noh<CR>x
+    nnoremap <silent> C c)
+    nnoremap <silent> D d)
     " force top correction on most recent misspelling
     nnoremap <buffer> <c-s> [s1z=<c-o>
     inoremap <buffer> <c-s> <c-g>u<Esc>[s1z=`]A<c-g>u
@@ -400,7 +400,7 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 " let ayucolor="dark"   " for dark version of theme
 
 " Undotree
-nnoremap <silent> <leader>u :UndotreeToggle<CR>
+nnoremap <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
 
 " Git Gutter
 set updatetime=100
