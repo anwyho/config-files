@@ -265,6 +265,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 Plug 'reedes/vim-lexical'
+Plug 'reedes/vim-wordy'
 
 " Limelight
 " highlight current paragraph and dim all other paragraphs
@@ -348,11 +349,14 @@ function! Prose()
     highlight SpellBad cterm=underline ctermbg=black ctermfg=red
     call pencil#init()
     call lexical#init()
+    call wordy#init()
+    nnoremap <silent> <leader>w :Wordy<space>
     " Limelight
     colorscheme pencil
 
     " delete a sentence (to .!?)
-    nnoremap <silent> D d/[.?!\n]/e<CR>x:noh<CR>:<CR>
+    nnoremap <silent> C d/[.?!\n]/e<CR>:noh<CR>s
+    nnoremap <silent> D d/[.?!\n]/e<CR>:noh<CR>x
     " force top correction on most recent misspelling
     nnoremap <buffer> <c-s> [s1z=<c-o>
     inoremap <buffer> <c-s> <c-g>u<Esc>[s1z=`]A<c-g>u
