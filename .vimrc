@@ -144,8 +144,8 @@ nnoremap q: :q
 cnoremap w!! w !sudo tee > /dev/null %<CR>
 
 " INSERT MODE
-inoremap jj <ESC>jj
-inoremap kk <ESC>kk
+imap jj <ESC>jj
+imap kk <ESC>kk
 
 "
 " A U T O  E D I T S
@@ -357,6 +357,9 @@ function! Prose()
     " delete a sentence (to .!?)
     nnoremap <silent> C c)
     nnoremap <silent> D d)
+    " make accidental jj kk more intuitive
+    imap jj <ESC>gj
+    imap kk <ESC>gk
     " force top correction on most recent misspelling
     nnoremap <buffer> <c-s> [s1z=<c-o>
     inoremap <buffer> <c-s> <c-g>u<Esc>[s1z=`]A<c-g>u
