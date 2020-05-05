@@ -345,6 +345,7 @@ function! Prose()
 
     let g:pencil#wrapModeDefault='soft'
     let g:pencil_terminal_italics = 1
+    let g:lexical#thesaurus_key = '<leader>t'
     set wrap
     highlight SpellBad cterm=underline ctermbg=black ctermfg=red
     call pencil#init()
