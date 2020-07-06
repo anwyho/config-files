@@ -193,6 +193,12 @@ set -o correct  # prompt suggestions for mispelled commands
 # export PATH="$PATH:/Users/ant/Library/Python/3.7/bin"
 export PATH="/Users/ant/.pyenv/shims:$PATH"
 
+# Set up global Ruby path
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Set up Heroku path
+PATH="/usr/local/heroku/bin:$PATH"
+
 # Set up Go environment
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
