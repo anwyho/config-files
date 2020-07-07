@@ -192,6 +192,9 @@ set -o correct  # prompt suggestions for mispelled commands
 # Set up global pip
 # export PATH="$PATH:/Users/ant/Library/Python/3.7/bin"
 export PATH="/Users/ant/.pyenv/shims:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 
 # Set up global Ruby path
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -396,3 +399,6 @@ _wakatime_heartbeat() {
 # See docs on what `preexec` is:
 # http://zsh.sourceforge.net/Doc/Release/Functions.html
 add-zsh-hook preexec _wakatime_heartbeat
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
