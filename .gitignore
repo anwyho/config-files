@@ -13,7 +13,6 @@
 
 # Only get Karabiner config
 !.config/
-.config/*
 !.config/karabiner
 .config/karabiner/*
 !.config/karabiner/karabiner.json
