@@ -207,9 +207,10 @@ augroup END
 
 " Download vim-plug plugin manager
 " If this doesn't work, try setting GIT_SSL_NO_VERIFY=true
-if empty(glob('~/.vim/plugged/plug.vim'))
-  silent !curl -fLo ~/.vim/plugged/plug.vim --create-dirs
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
