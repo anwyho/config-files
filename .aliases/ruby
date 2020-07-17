@@ -2,6 +2,8 @@
 
 # Ruby/RoR
 alias rs='bundle exec rspec -fdoc'
+alias rsf='bundle exec rspec -fdoc --tag focus'
 alias rcs='rails console --sandbox'
 alias rser='rails server'
 alias ra='rails'
+alias rdbt='bundle exec rails db:reset RAILS_ENV=test; bundle exec rails db:seed RAILS_ENV=test'
