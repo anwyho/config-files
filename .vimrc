@@ -285,6 +285,9 @@ Plug 'Raimondi/delimitMate'
 " UndoTree
 Plug 'mbbill/undotree'
 
+" Instant Markdown
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+
 
 " To Research:
 " ??
