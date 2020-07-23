@@ -211,6 +211,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_comp
 
+# NeoVim Setup
+[ -h ~/.config/nvim ] || ln -s ~/.vim ~/.config/nvim
+[ -h ~/.config/nvim/init.vim ] || ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+
 #############
 # Built-ins #
 #############

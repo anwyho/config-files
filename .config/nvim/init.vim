@@ -1,1 +1,1 @@
-/Users/alo/.vimrc
+/Users/ant/.vimrc
