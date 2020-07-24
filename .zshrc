@@ -212,8 +212,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_comp
 
 # NeoVim Setup
-[ -h ~/.config/nvim ] || ln -s ~/.vim ~/.config/nvim
-[ -h ~/.config/nvim/init.vim ] || ln -s ~/.vimrc ~/.config/nvim/init.vim
+[ -e ~/.config/nvim ] || ln -s ~/.vim ~/.config/nvim
+[ -e ~/.config/nvim/init.vim ] || ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+# Google Cloud SDK setup
+test -e "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+test -e "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+# iTerm2 Shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
 #############
@@ -404,6 +411,4 @@ _wakatime_heartbeat() {
 # See docs on what `preexec` is:
 # http://zsh.sourceforge.net/Doc/Release/Functions.html
 add-zsh-hook preexec _wakatime_heartbeat
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
