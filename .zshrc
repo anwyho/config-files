@@ -82,6 +82,7 @@ echo '
       ~             ~        ~      ~      ~~   ~
 
                       s h i p   i t !
+
 '
 
 # Elapsed time functions #
