@@ -72,14 +72,14 @@ function has_unstaged() {
 echo '
            ^^                  @@@@@@@@@@              ^^
                   ^^        @@@@@@@@@@@@@@@@    ^^
-              --           @@@@@@@@@@@@@@@@@@          
+              --           @@@@@@@@@@@@@@@@@@
           __  )_) __      @@@@@@@@@@@@@@@@@@@@        ^^
 ~~~~~~~~~ )_) )_) )_) ~~~ &&&&&&&&&&&&&&&&&&&& ~~~~~~~ ~~~~~
-~        __!___!___!__  ~ ~~~~~~~~~~~~~~~~~~~~ ~       ~~  
-        ~\_ _ _ _ _ _/ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~   
+~        __!___!___!__  ~ ~~~~~~~~~~~~~~~~~~~~ ~       ~~
+        ~\_ _ _ _ _ _/ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~
     ~   ~~~~ ~~~ ~~~~   ~    ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~
-~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~     
-      ~             ~        ~      ~      ~~   ~           
+~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~
+      ~             ~        ~      ~      ~~   ~
 
                       s h i p   i t !
 '
@@ -353,7 +353,6 @@ function git() {
 }
 
 
-# Wakatime Plugin
 _wakatime_heartbeat() {
   # Sends a heartbeat to the wakarime server before each command.
   # But it can be disabled by an environment variable:
@@ -407,8 +406,4 @@ _wakatime_heartbeat() {
     $should_work_online \
     &>/dev/null </dev/null &!
 }
-
-# See docs on what `preexec` is:
-# http://zsh.sourceforge.net/Doc/Release/Functions.html
 add-zsh-hook preexec _wakatime_heartbeat
-
