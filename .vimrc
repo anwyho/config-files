@@ -120,6 +120,9 @@ cabbrev wrap set wrap!  " toggle wrap
 " Bind K to search word under cursor
 " nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+" [Y]ank to EOL
+nnoremap Y y$
+
 " Switch between the last two files
 nnoremap <leader>p <c-^>
 
