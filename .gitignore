@@ -6,6 +6,7 @@
 !.bashrc
 !.condarc
 !.gitignore
+!.hyper.js
 !.profile
 !setup.bash
 !.vimrc

@@ -75,12 +75,6 @@ set formatoptions-=t
 set undolevels=1000
 set undoreload=10000
 
-try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
-    set undofile
-catch
-endtry
-
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 
@@ -330,7 +324,10 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-colorscheme base16-default-dark
+if $TERM_PROGRAM != 'Hyper'
+    colorscheme base16-default-dark
+    set signcolumn=yes
+endif
 " let base16colorspace=256
 highlight SpellBad cterm=underline ctermbg=black ctermfg=red
 highlight SpellCap cterm=underline
@@ -415,9 +412,7 @@ nnoremap <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
 
 " Git Gutter
 set updatetime=100
-set signcolumn=yes
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
-set signcolumn=yes
 highlight SignColumn ctermbg=black guibg=black
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 ctermbg=black guibg=black
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 ctermbg=black guibg=black
@@ -467,4 +462,4 @@ nnoremap <leader>nf :NERDTreeFind<cr>
 " YankStack
 let g:yankstack_yank_keys = ['y', 'd']
 
-:
+
