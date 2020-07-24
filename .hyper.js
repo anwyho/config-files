@@ -49,7 +49,7 @@ module.exports = {
     // bellSoundURL: 'http://example.com/bell.mp3',
     webGLRenderer: true,
     hyperline: {
-      plugins: ['ip', 'cpu', 'memory', 'network', 'spotify']
+      plugins: ['cpu', 'memory', 'network', 'spotify']
     }
   },
   plugins: [
