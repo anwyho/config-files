@@ -3,7 +3,11 @@
 # Ruby/RoR
 alias rs='bundle exec rspec -fdoc'
 alias rsf='bundle exec rspec -fdoc --tag focus'
+alias rcon='rails console'
 alias rcs='rails console --sandbox'
 alias rser='rails server'
+alias rser0='rails server -b 0.0.0.0'
 alias ra='rails'
-alias rdbt='bundle exec rails db:reset RAILS_ENV=test; bundle exec rails db:seed RAILS_ENV=test'
+alias rreset='yarn install --check-files && bundle install && rails db:drop && rails db:setup && rails db:migrate && rails db:seed SEED_CONTENT=true && ((sleep 5 && open -a "Google Chrome" http://localhost:3000) &) && rails server'
+alias ydoc='yard doc && ((sleep 10 && open -a "Google Chrome" http://localhost:8808) &) && yard server --reload'
+alias yser='((sleep 2 && open -a "Google Chrome" http://localhost:8808) &) && yard server --reload'

@@ -1,0 +1,7 @@
+#!/bin/env sh
+
+alias work='cd ~/workspace/web-alomoves'
+
+alias redesign-browse-console='heroku run -a web-alomoves-redesign-b-z3ad0m rails c'
+alias staging-console='heroku run -a growing-moon-5089 rails c'
+alias prod-console='heroku run -a floating-autumn-3174 rails c'
