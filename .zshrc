@@ -326,6 +326,7 @@ bindkey -M vicmd 'j' history-substring-search-down
 gitPreAutoStatusCommands=(
     'add'
     'diff'
+    'fetch'
     'push'
     'rm'
     'reset'
