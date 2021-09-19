@@ -213,7 +213,7 @@ PROMPT_HEADER='%E$(_formatted_date) %F{grey}@%f %F{193}$(_current_directory) %f$
 function prompt_header() { print -P $PROMPT_HEADER ; }
 add-zsh-hook precmd prompt_header
 
-PROMPT=' %F{24}%(!.%F{red}#%f.$%F{white} '
+PROMPT='%F{24}%(!.%F{red}#%f.$%F{white} '
 
 function _elapsed_time() { print "↳ $(exec_elapsed_time)" ; }
 function _return_code() { print "%(?.%F{green}✔.%F{red}✖%?)%f" ; }
