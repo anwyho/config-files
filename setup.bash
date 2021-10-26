@@ -3,6 +3,7 @@
 # setup.bash sets up your home directory with the desired configs and 
 # VIM plugins. It also moves the previous config files to an archive.
 
+# TODO: clean stuff up
 
 DRY_RUN=false
 if [[ ${DRY_RUN} = true ]]; then  
