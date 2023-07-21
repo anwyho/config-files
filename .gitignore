@@ -1,22 +1,9 @@
 /*
 !.aliases/
 !.aliasrc
-!.bash_aliases
-!.bash_profile
-!.bashrc
-!.condarc
 !.gitignore
-!.hyper.js
-!.profile
-!setup.bash
 !.vimrc
 !.zshrc
-
-# Only get Karabiner config
-!.config/
-!.config/karabiner
-.config/karabiner/*
-!.config/karabiner/karabiner.json
 
 # Only get VS Code settings
 !.vscode/
