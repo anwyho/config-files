@@ -297,9 +297,9 @@ function branch() { git rev-parse --abbrev-ref HEAD 2>/dev/null }
 function is_dirty() {
   local dirty=$(git status --porcelain 2>/dev/null)
   if [[ -n $dirty ]]; then
-    printf 1  # Dirty branch
+    echo 1  # Dirty branch
   else
-    printf 0  # Clean branch
+    echo 0  # Clean branch
   fi
 }
 
@@ -312,8 +312,8 @@ function git_ahead_behind_status() {
     # 32, 35
     # 39, 41 - light
     # 75, 71 - more matte
-    local ahead="%{%F{75}%}"${ahead_count}"▼%{%f%}" # blue
-    local behind="%{%F{71}%}"${behind_count}"▲%{%f%}" # green
+    local ahead="%{%F{243}%}"${ahead_count}"▼%{%f%}" # blue
+    local behind="%{%F{243}%}"${behind_count}"▲%{%f%}" # green
 
     if [[ $ahead_count -gt 0 && $behind_count -gt 0 ]]; then
       echo $ahead$behind
@@ -323,6 +323,12 @@ function git_ahead_behind_status() {
       echo $behind
     fi
   fi
+}
+
+function branch_has_remote_but_is_not_tracked() {
+  local remote_url=$(git remote get-url origin 2>/dev/null)
+  local remote_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)")
+  [[ -n $remote_url && -z $remote_branch ]] && echo 1 || echo 0
 }
 
 function custom_pwd() {
@@ -358,13 +364,19 @@ function whereami() {
   local dir=$(custom_pwd)
   local is_dirty=$(is_dirty)
   local abs=$(git_ahead_behind_status)
+  local grounded=$(branch_has_remote_but_is_not_tracked)
   [[ -n $repo || -n $dir ]] && echo -n "\n  "
-  # [[ -n $repo ]] && echo -n $repo
   [[ -n $repo ]] && echo -n "%{%F{$(oscillate 71 75)}%}"$repo"%{%f%}"
   [[ -n $repo && -n $dir ]] && echo -n "/"
   [[ -n $dir ]] && echo -n "$dir"
   if [[ -n $branch ]]; then
-    [[ -n $abs ]] && echo -n " "$abs" " || echo -n " %{%F{243}%}➤%{%f%} "
+    if (( $grounded == 1 )); then
+      echo -n " %{%F{243}%}⏚%{%f%} "
+    elif [[ -n $abs ]]; then
+      echo -n " "$abs" "
+    else
+      echo -n " %{%F{243}%}➤%{%f%} "
+    fi
   fi
   (( $is_dirty == 1 )) && echo -n "%{%F{131}%}✱%{%f%}" # orange, 131 
   [[ -n $branch ]] && echo -n $branch
@@ -431,7 +443,7 @@ kill_at_port() {
   fi
 }
 
-function gs() { git status }
+alias gs='\git status'
 
 function gpush() {
   local current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -613,7 +625,7 @@ echo -e "\r\e[1A\e[1A\e[38;5;71m✔\e[0m loaded ~/.zshrc in $(exec_elapsed_time)
                                         
                                         
                                         
-\e[38;5;73m⏻\e[0m welcome \e[38;5;216mAnthony\e[0m.                   
+⏻ welcome \e[38;5;216mAnthony\e[0m.                   
 
 
 $(tput cuu 2)"
