@@ -327,7 +327,7 @@ function git_ahead_behind_status() {
 
 function branch_has_remote_but_is_not_tracked() {
   local remote_url=$(git remote get-url origin 2>/dev/null)
-  local remote_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)")
+  local remote_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" 2>/dev/null)
   [[ -n $remote_url && -z $remote_branch ]] && echo 1 || echo 0
 }
 
