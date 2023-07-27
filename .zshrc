@@ -161,10 +161,10 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 # Use beam shape cursor for each new prompt.
-function _initialize_beam() { echo -ne '\e[5 q'; }
-# Initialize with beam
-_initialize_beam
-add-zsh-hook precmd _initialize_beam
+function initialize_the_beam() { echo -ne '\e[5 q'; }
+# Initialize with the beam
+initialize_the_beam
+add-zsh-hook precmd initialize_the_beam
 
 
 # ZSH Syntax Highlighting
@@ -218,9 +218,9 @@ test_source ~/.iterm2_shell_integration.zsh
 
 # Git status after git commands
 # default list of git commands `git status` is running after
-gitPreAutoStatusCommands=( 'add' 'checkout' 'commit' 'fetch' 'init' 'mv' 'prune' 'push' 'rebase' 'reset' 'restore' 'rm' )
+gitPreAutoStatusCommands=( 'add' 'checkout' 'commit' 'fetch' 'mv' 'prune' 'push' 'rebase' 'reset' 'restore' 'rm' )
 
-function _elementInArray() {
+function element_in_array() {
   local e
   for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
   return 1
@@ -228,7 +228,7 @@ function _elementInArray() {
 
 function git() {
     command git $@
-    if (_elementInArray $1 $gitPreAutoStatusCommands); then
+    if (element_in_array $1 $gitPreAutoStatusCommands); then
         echo -ne '\n\n'
         command git status
     fi
@@ -264,7 +264,7 @@ function time_tz() {
   echo "$(TZ="$tz" date "$format$sign %Z")"
 }
 
-function _fmt_duration_ms() {
+function fmt_duration_ms() {
   local ms="$1"
 
   local hours=$(( ms / 3600000 ))
@@ -288,32 +288,23 @@ function _fmt_duration_ms() {
 }
 
 # exec_elapsed_time prints a string calculated by start_exec_timer and end_exec_timer_ms
-function exec_elapsed_time() { _fmt_duration_ms ${ZSH_ELAPSED_TIME} }
+function exec_elapsed_time() { fmt_duration_ms ${ZSH_ELAPSED_TIME} }
 
-function repo() { basename -s .git $(git remote get-url origin 2>/dev/null) 2>/dev/null }
+function repo() { basename -s .git $(\git remote get-url origin 2>/dev/null) 2>/dev/null }
 
-function branch() { git rev-parse --abbrev-ref HEAD 2>/dev/null }
-
-function is_dirty() {
-  local dirty=$(git status --porcelain 2>/dev/null)
-  if [[ -n $dirty ]]; then
-    echo 1  # Dirty branch
-  else
-    echo 0  # Clean branch
-  fi
-}
+function branch() { \git rev-parse --abbrev-ref HEAD 2>/dev/null }
 
 function git_ahead_behind_status() {
-  local remote_ref=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+  local remote_ref=$(\git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
   if [[ -n $remote_ref ]]; then
-    local ahead_count=$(git rev-list --count HEAD..$remote_ref)
-    local behind_count=$(git rev-list --count $remote_ref..HEAD)
+    local ahead_count=$(\git rev-list --count HEAD..$remote_ref)
+    local behind_count=$(\git rev-list --count $remote_ref..HEAD)
     # 24, 22 - dark
     # 32, 35
     # 39, 41 - light
     # 75, 71 - more matte
-    local ahead="%{%F{243}%}"${ahead_count}"▼%{%f%}" # blue
-    local behind="%{%F{243}%}"${behind_count}"▲%{%f%}" # green
+    local ahead="%{%F{243}%}"${ahead_count}"▼%{%f%}"
+    local behind="%{%F{243}%}"${behind_count}"▲%{%f%}"
 
     if [[ $ahead_count -gt 0 && $behind_count -gt 0 ]]; then
       echo $ahead$behind
@@ -325,14 +316,29 @@ function git_ahead_behind_status() {
   fi
 }
 
+function git_status_check() {
+  local status_output=$(git status --porcelain 2>/dev/null)
+  local staged_changes=$(echo $status_output | grep -E '^[MADRCU]')
+  local unstaged_changes=$(echo $status_output | grep -E '^ [MADRCU]')
+  if [[ -z "$status_output" ]]; then
+    echo 0
+  elif [[ -n "$unstaged_changes" && -n "$staged_changes" ]]; then
+    echo 2
+  elif [[ -n "$unstaged_changes" ]]; then
+    echo 1
+  else
+    echo 3
+  fi
+}
+
 function branch_has_remote_but_is_not_tracked() {
-  local remote_url=$(git remote get-url origin 2>/dev/null)
-  local remote_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" 2>/dev/null)
+  local remote_url=$(\git remote get-url origin 2>/dev/null)
+  local remote_branch=$(\git for-each-ref --format='%(upstream:short)' refs/heads/"$(\git rev-parse --abbrev-ref HEAD 2>/dev/null)" 2>/dev/null)
   [[ -n $remote_url && -z $remote_branch ]] && echo 1 || echo 0
 }
 
 function custom_pwd() {
-  local git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  local git_root=$(\git rev-parse --show-toplevel 2>/dev/null)
   local current_dir=$(pwd)
 
   if [[ -n $git_root ]]; then
@@ -362,7 +368,7 @@ function whereami() {
   local repo=$(repo)
   local branch=$(branch)
   local dir=$(custom_pwd)
-  local is_dirty=$(is_dirty)
+  local git_status_check=$(git_status_check)
   local abs=$(git_ahead_behind_status)
   local grounded=$(branch_has_remote_but_is_not_tracked)
   [[ -n $repo || -n $dir ]] && echo -n "\n  "
@@ -378,7 +384,9 @@ function whereami() {
       echo -n " %{%F{243}%}➤%{%f%} "
     fi
   fi
-  (( $is_dirty == 1 )) && echo -n "%{%F{131}%}✱%{%f%}" # orange, 131 
+  (( $git_status_check == 1 )) && echo -n "%{%F{131}%}✱%{%f%}" # orange, 131 
+  (( $git_status_check == 2 )) && echo -n "%{%F{179}%}✱%{%f%}" # yellow, 179
+  (( $git_status_check == 3 )) && echo -n "%{%F{71}%}✱%{%f%}" # green, 71
   [[ -n $branch ]] && echo -n $branch
 }
 
@@ -403,11 +411,8 @@ RPS1='%{$(tput cuu 2)%}$(right_prompt)%{$(tput cud 2)$(tput cuf ${#PROMPT})%}'
 
 
 
-# TODO: colors
-  # ombre the color every command?
 # TODO: aliases
 #   github stuff
-# TODO: update config_files
 # TODO: vimrc
 
 
@@ -446,7 +451,7 @@ kill_at_port() {
 alias gs='\git status'
 
 function gpush() {
-  local current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  local current_branch=$(\git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
   if [[ -z $current_branch ]]; then
     echo "Not in a Git repository or unable to determine the current branch."
@@ -464,11 +469,11 @@ function gpush() {
     fi
 
     # Create and checkout the new branch
-    git checkout -b "$new_branch_name"
+    \git checkout -b "$new_branch_name"
     current_branch="$new_branch_name"
   fi
 
-  local remote_url=$(git config --get remote.origin.url)
+  local remote_url=$(\git config --get remote.origin.url)
 
   if [[ -z $remote_url ]]; then
     echo "Unable to retrieve the GitHub remote URL."
@@ -484,22 +489,22 @@ function gpush() {
   fi
 
   # Check if the branch already exists on the remote origin
-  if git ls-remote --exit-code --heads origin "$current_branch" &>/dev/null; then
-    local push_command="git push origin $current_branch"
+  if \git ls-remote --exit-code --heads origin "$current_branch" &>/dev/null; then
+    local push_command="\git push origin $current_branch"
   else
-    local push_command="git push -u origin $current_branch"
+    local push_command="\git push -u origin $current_branch"
   fi
 
   # Check if branch has changes to be pushed up, and early-exit if not
-  local remote_ref=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
-  local ahead_count=$(git rev-list --count HEAD..$remote_ref)
-  local behind_count=$(git rev-list --count $remote_ref..HEAD)
+  local remote_ref=$(\git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+  local ahead_count=$(\git rev-list --count HEAD..$remote_ref)
+  local behind_count=$(\git rev-list --count $remote_ref..HEAD)
 
   if [[ $ahead_count -gt 0 || $behind_count -gt 0 ]]; then
     echo "Changes found. Proceeding with the push..."
   else
     echo -e "No changes to be pushed.\n"
-    git status
+    \git status
     return 0
   fi
 
@@ -540,11 +545,11 @@ function git_commit() {
     [[ "$choices" =~ 3 ]] && commands_to_run+=("bin/packs update")
   fi
 
-  git status
+  \git status
 
   echo -n "ADD all changes? (Y/n): "
   read -r add_all_changes
-  [[ $add_all_changes == "" || $add_all_changes == "y" || $add_all_changes == "Y" ]] && commands_to_run=("git add ." "${commands_to_run[@]}")
+  [[ $add_all_changes == "" || $add_all_changes == "y" || $add_all_changes == "Y" ]] && commands_to_run=("\git add ." "${commands_to_run[@]}")
 
   prev_commit_msg=$(\git log -1 --pretty=%B)
   echo -e "\nPrevious commit message:\n\n$prev_commit_msg"
