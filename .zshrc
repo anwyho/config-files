@@ -297,8 +297,8 @@ function branch() { \git rev-parse --abbrev-ref HEAD 2>/dev/null }
 function git_ahead_behind_status() {
   local remote_ref=$(\git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
   if [[ -n $remote_ref ]]; then
-    local ahead_count=$(\git rev-list --count HEAD..$remote_ref)
-    local behind_count=$(\git rev-list --count $remote_ref..HEAD)
+    local ahead_count=$(\git rev-list --count HEAD..$remote_ref 2>/dev/null)
+    local behind_count=$(\git rev-list --count $remote_ref..HEAD 2>/dev/null)
     # 24, 22 - dark
     # 32, 35
     # 39, 41 - light
@@ -385,7 +385,7 @@ function whereami() {
     fi
   fi
   (( $git_status_check == 1 )) && echo -n "%{%F{131}%}✱%{%f%}" # orange, 131 
-  (( $git_status_check == 2 )) && echo -n "%{%F{179}%}✱%{%f%}" # yellow, 179
+  (( $git_status_check == 2 )) && echo -n "%{%F{179}%}✱%{%f%}" # yellow, 222
   (( $git_status_check == 3 )) && echo -n "%{%F{71}%}✱%{%f%}" # green, 71
   [[ -n $branch ]] && echo -n $branch
 }
