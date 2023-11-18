@@ -115,7 +115,7 @@ export SPECOPT="--format documentation --no-profile"
 # Built-ins #
 #############
 
-test_source ~/.aliasrc
+# test_source ~/.aliasrc
 
 # -g is a global alias, substituted in the middle of commands
 alias -g ...='../..'
@@ -318,8 +318,8 @@ function git_ahead_behind_status() {
 
 function git_status_check() {
   local status_output=$(git status --porcelain 2>/dev/null)
-  local staged_changes=$(echo $status_output | grep -E '^[MADRCU]')
-  local unstaged_changes=$(echo $status_output | grep -E '^ [MADRCU]')
+  local staged_changes=$(echo $status_output | grep -E '^[MTADRCU]')
+  local unstaged_changes=$(echo $status_output | grep -E '^ [MTADRCU]')
   if [[ -z "$status_output" ]]; then
     echo 0
   elif [[ -n "$unstaged_changes" && -n "$staged_changes" ]]; then
@@ -413,6 +413,38 @@ RPS1='%{$(tput cuu 2)%}$(right_prompt)%{$(tput cud 2)$(tput cuf ${#PROMPT})%}'
 
 # TODO: aliases
 #   github stuff
+alias g='echo "git" && git'
+alias gs='echo "git status" && git status'
+alias gco='echo "git checkout" && git checkout'
+alias gcob='echo "git checkout -b" && git checkout -b'
+function ga { if [ $# -eq 0 ] ; then echo "git add ." && git add . ; else echo "git add" && git add "$@" ; fi }
+alias cf='echo "committer --fix" && committer --fix'
+alias gcm='echo "git commit -m" && git commit -m'
+alias gca='echo "git commit --amend" && git commit --amend'
+alias gcan='echo "git commit --amend --no-edit" && git commit --amend --no-edit'
+alias gcane='gcan'
+alias gcempty='echo "git commit --allow-empty-message --message=\"\"" && git commit --allow-empty-message --message=""'
+alias gcf='echo "git commit --amend --no-edit && git push -f" && git commit --amend --no-edit && git push -f'
+alias gp='echo "git push" && git push'
+alias gpf='echo "git push -f" && git push -f'
+function wippush {
+  # TODO: echo the entire command
+  git add .
+  git commit -m 'WIP' -n # TODO: provide message
+  # TODO: check out new branch if current branch is main
+  git push # TODO: push set upstream if not already
+}
+alias wippush='git add . && git commit -m "WIP" && '
+
+alias rs='echo "bin/rspec" && bin/rspec'
+alias rsn='echo "bin/rspec --next-failure" && bin/rspec -n'
+alias srb='echo "bin/srb tc" && bin/srb tc'
+alias pu='echo "bin/packs update" && bin/packs update'
+alias rc='echo "bin/rails console" && bin/rails c'
+alias rr='echo "bin/rails runner" && bin/rails r'
+alias mig='echo "bin/rails db:migrate" && bin/rails db:migrate'
+
+# echo -n "Pry.commands.alias_command 'c', 'continue'\nPry.commands.alias_command 's', 'step'\nPry.commands.alias_command 'n', 'next'\n" > ~/.pryrc
 # TODO: vimrc
 
 
