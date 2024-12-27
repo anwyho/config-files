@@ -171,7 +171,7 @@ end
 -- OVERRIDE SCHEME
 local color_scheme = schemes.dark.kanagawa
 -- local color_scheme = nil
--- local color_scheme = color_scheme or random_scheme()
+local color_scheme = color_scheme or random_scheme()
 print(color_scheme)
 assert(color_scheme ~= nil, "Scheme not found")
 config.color_scheme = color_scheme
