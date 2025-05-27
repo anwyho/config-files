@@ -1,10 +1,10 @@
 # #!/bin/env zsh
 
 # #####  #### #   #
-   #  #     #   #
-  #    ###  #####
- #        # #   #
-##### ####  #   #
+#    #  #     #   #
+#   #    ###  #####
+#  #        # #   #
+# ##### ####  #   #
 
 #  run configs  #
 
@@ -209,6 +209,13 @@ bindkey -M vicmd 'j' history-substring-search-down
 # NeoVim
 [[ -d ~/.config/nvim ]] || ln -s ~/.vim ~/.config/nvim 2>/dev/null
 [[ -f ~/.config/nvim/init.vim ]] || ln -s ~/.vimrc ~/.config/nvim/init.vim 2>/dev/null
+
+# # RubyMine
+# # for `rubymine` command
+# export PATH="$PATH:/Applications/RubyMine.app/Contents/MacOS"
+
+# # iTerm2
+# test_source ~/.iterm2_shell_integration.zsh
 
 
 
