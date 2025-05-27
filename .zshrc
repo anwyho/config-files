@@ -178,10 +178,8 @@ add-zsh-hook precmd initialize_the_beam
 
 
 # ZSH Syntax Highlighting
-
 # `brew install zsh-syntax-highlighting`
-ZSH_SYNTAX_HIGHLIGHTING_PATH=/opt/homebrew/Cellar/zsh-syntax-highlighting/0.7.1/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-test_source $ZSH_SYNTAX_HIGHLIGHTING_PATH
+test_source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 typeset -gA ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=114,bold
@@ -194,8 +192,7 @@ ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=38
 # `brew install zsh-history-substring-search`
 # ref: https://github.com/zsh-users/zsh-history-substring-search
 # NOTE: Should go *after* ZSH Syntax Highlighting
-ZSH_HISTORY_SUBSTRING_SEARCH=/opt/homebrew/Cellar/zsh-history-substring-search/1.0.2/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-test_source $ZSH_HISTORY_SUBSTRING_SEARCH
+test_source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 HISTORY_SUBSTRING_SEARCH_FUZZY=true
 HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 bindkey '^[[A' history-substring-search-up
@@ -212,13 +209,6 @@ bindkey -M vicmd 'j' history-substring-search-down
 # NeoVim
 [[ -d ~/.config/nvim ]] || ln -s ~/.vim ~/.config/nvim 2>/dev/null
 [[ -f ~/.config/nvim/init.vim ]] || ln -s ~/.vimrc ~/.config/nvim/init.vim 2>/dev/null
-
-# # RubyMine
-# # for `rubymine` command
-# export PATH="$PATH:/Applications/RubyMine.app/Contents/MacOS"
-
-# # iTerm2
-# test_source ~/.iterm2_shell_integration.zsh
 
 
 
@@ -398,7 +388,7 @@ function whereami() {
 
 touch ~/.hush_login
 add-zsh-hook precmd () {printf "\n\n\n\n\n"}
-# Old prompt
+# Retired 2025-05-26
 # PROMPT='$(tput cuu 5)
 
 # %{%F{243}%}↳%{%f%} $(date_lower) %{%F{243}%}@%{%f%} $(time_tz America/Los_Angeles +%H:%M:%S) %{%F{243}%}| $(time_tz America/Denver) | $(time_tz America/Chicago) | $(time_tz America/New_York) | $(time_tz)%{%f%}$(whereami)
@@ -408,7 +398,7 @@ PROMPT='$(tput cuu 5)
 
 %{%F{243}%}↳%{%f%} $(date_lower) %{%F{243}%}@%{%f%} $(time_tz America/Los_Angeles +%H:%M:%S) %{%F{243}%}| $(time_tz)%{%f%}$(whereami)
 
-  '
+'
 add-zsh-hook preexec () {echo}
 
 
