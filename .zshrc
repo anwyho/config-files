@@ -1,6 +1,6 @@
-#!/bin/env zsh
+# #!/bin/env zsh
 
-#####  #### #   #
+# #####  #### #   #
    #  #     #   #
   #    ###  #####
  #        # #   #
@@ -29,8 +29,9 @@ echo -ne '  loading ~/.zshrc...\r'
 autoload -U colors && colors  # enable colors
 autoload -Uz vcs_info  # for use in prompts
 autoload -U add-zsh-hook  # hooks for prompts
-autoload -U compinit
+autoload -U compinit && compinit
 autoload -U edit-command-line
+
 
 
 
@@ -86,10 +87,10 @@ start_exec_timer_ms # for loading ~/.zshrc
 
 # See for all options
 # ref: http://zsh.sourceforge.net/Doc/Release/Options.html#Options
-set -o AUTO_CD # type folder name to `cd` to it
 set -o CORRECT  # prompt suggestions for mispelled commands
 set -o NO_CASE_GLOB
 set -o PROMPT_SUBST # parameter expansion in prompts
+# set -o AUTO_CD # type folder name to `cd` to it
 
 # History
 set -o APPEND_HISTORY
@@ -97,6 +98,7 @@ set -o EXTENDED_HISTORY  # record timestamp of command
 set -o HIST_REDUCE_BLANKS  # removes blank lines
 set -o HIST_IGNORE_DUPS
 set -o INC_APPEND_HISTORY_TIME  # add commands immediately after execution
+set -o HIST_IGNORE_SPACE # if prefixed with space, don't add to history
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
@@ -106,8 +108,10 @@ function history() { builtin fc -l -i "${@:-1}" ; }
 # ref: http://www.bigsoft.co.uk/blog/2008/04/11/configuring-ls_colors
 export LS_COLORS='di=01;36:ln=01;34'
 
-# RSpec - don't show profiling info
-export SPECOPT="--format documentation --no-profile"
+# Prevent text replacement on Mac
+# TODO: Change this so it only runs every 20 days or so
+defaults write -g WebAutomaticTextReplacementEnabled -bool false
+
 
 
 
@@ -117,13 +121,19 @@ export SPECOPT="--format documentation --no-profile"
 
 # test_source ~/.aliasrc
 
-# -g is a global alias, substituted in the middle of commands
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
+alias v='vim'
+alias nv='nvim'
 
-
+rm() {
+  if command -v trash >/dev/null 2>&1; then
+    echo "Tip: Use 'trash [file]' for safer deletes."
+  else
+    echo "Tip: 'trash' not found. Install it with:"
+    echo "  brew install trash"
+  fi
+  echo "Executing 'rm' as requested..."
+  command rm "$@"
+}
 
 ###########
 # Plugins #
@@ -203,12 +213,12 @@ bindkey -M vicmd 'j' history-substring-search-down
 [[ -d ~/.config/nvim ]] || ln -s ~/.vim ~/.config/nvim
 [[ -f ~/.config/nvim/init.vim ]] || ln -s ~/.vimrc ~/.config/nvim/init.vim
 
-# RubyMine
-# for `rubymine` command
-export PATH="$PATH:/Applications/RubyMine.app/Contents/MacOS"
+# # RubyMine
+# # for `rubymine` command
+# export PATH="$PATH:/Applications/RubyMine.app/Contents/MacOS"
 
-# iTerm2
-test_source ~/.iterm2_shell_integration.zsh
+# # iTerm2
+# test_source ~/.iterm2_shell_integration.zsh
 
 
 
@@ -238,10 +248,6 @@ function git() {
 ##########
 # Prompt #
 ##########
-
-function update_iterm_tab_title() { echo -ne "\e]1;${PWD##*/}\a" }
-update_iterm_tab_title
-add-zsh-hook chpwd update_iterm_tab_title
 
 # unused: 
 # function _terminal_width() { stty size | cut -d" " -f2 ; }
@@ -392,9 +398,15 @@ function whereami() {
 
 touch ~/.hush_login
 add-zsh-hook precmd () {printf "\n\n\n\n\n"}
+# Old prompt
+# PROMPT='$(tput cuu 5)
+
+# %{%F{243}%}↳%{%f%} $(date_lower) %{%F{243}%}@%{%f%} $(time_tz America/Los_Angeles +%H:%M:%S) %{%F{243}%}| $(time_tz America/Denver) | $(time_tz America/Chicago) | $(time_tz America/New_York) | $(time_tz)%{%f%}$(whereami)
+
+#   '
 PROMPT='$(tput cuu 5)
 
-%{%F{243}%}↳%{%f%} $(date_lower) %{%F{243}%}@%{%f%} $(time_tz America/Los_Angeles +%H:%M:%S) %{%F{243}%}| $(time_tz America/Denver) | $(time_tz America/Chicago) | $(time_tz America/New_York) | $(time_tz)%{%f%}$(whereami)
+%{%F{243}%}↳%{%f%} $(date_lower) %{%F{243}%}@%{%f%} $(time_tz America/Los_Angeles +%H:%M:%S) %{%F{243}%}| $(time_tz)%{%f%}$(whereami)
 
   '
 add-zsh-hook preexec () {echo}
@@ -408,44 +420,6 @@ function right_prompt() { [[ $ZSH_START_TIME -ne -1 ]] && echo "   %F{243}$(elap
 # NOTE: The #PROMPT at the end of the next line is the length of $PROMPT
 # ref: https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_sequences
 RPS1='%{$(tput cuu 2)%}$(right_prompt)%{$(tput cud 2)$(tput cuf ${#PROMPT})%}'
-
-
-
-# TODO: aliases
-#   github stuff
-alias g='echo "git" && git'
-alias gs='echo "git status" && git status'
-alias gco='echo "git checkout" && git checkout'
-alias gcob='echo "git checkout -b" && git checkout -b'
-function ga { if [ $# -eq 0 ] ; then echo "git add ." && git add . ; else echo "git add" && git add "$@" ; fi }
-alias cf='echo "committer --fix" && committer --fix'
-alias gcm='echo "git commit -m" && git commit -m'
-alias gca='echo "git commit --amend" && git commit --amend'
-alias gcan='echo "git commit --amend --no-edit" && git commit --amend --no-edit'
-alias gcane='gcan'
-alias gcempty='echo "git commit --allow-empty-message --message=\"\"" && git commit --allow-empty-message --message=""'
-alias gcf='echo "git commit --amend --no-edit && git push -f" && git commit --amend --no-edit && git push -f'
-alias gp='echo "git push" && git push'
-alias gpf='echo "git push -f" && git push -f'
-function wippush {
-  # TODO: echo the entire command
-  git add .
-  git commit -m 'WIP' -n # TODO: provide message
-  # TODO: check out new branch if current branch is main
-  git push # TODO: push set upstream if not already
-}
-alias wippush='git add . && git commit -m "WIP" && '
-
-alias rs='echo "bin/rspec" && bin/rspec'
-alias rsn='echo "bin/rspec --next-failure" && bin/rspec -n'
-alias srb='echo "bin/srb tc" && bin/srb tc'
-alias pu='echo "bin/packs update" && bin/packs update'
-alias rc='echo "bin/rails console" && bin/rails c'
-alias rr='echo "bin/rails runner" && bin/rails r'
-alias mig='echo "bin/rails db:migrate" && bin/rails db:migrate'
-
-# echo -n "Pry.commands.alias_command 'c', 'continue'\nPry.commands.alias_command 's', 'step'\nPry.commands.alias_command 'n', 'next'\n" > ~/.pryrc
-# TODO: vimrc
 
 
 
@@ -479,8 +453,6 @@ kill_at_port() {
     return 1
   fi
 }
-
-alias gs='\git status'
 
 function gpush() {
   local current_branch=$(\git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -640,6 +612,43 @@ function git_commit() {
   fi
 }
 
+# TODO: aliases
+#   github stuff
+alias g='echo "git" && git'
+alias gs='echo "git status" && git status'
+alias gco='echo "git checkout" && git checkout'
+alias gcob='echo "git checkout -b" && git checkout -b'
+function ga { if [ $# -eq 0 ] ; then echo "git add ." && git add . ; else echo "git add" && git add "$@" ; fi }
+alias cf='echo "committer --fix" && committer --fix'
+alias gcm='echo "git commit -m" && git commit -m'
+alias gca='echo "git commit --amend" && git commit --amend'
+alias gcan='echo "git commit --amend --no-edit" && git commit --amend --no-edit'
+alias gcane='gcan'
+alias gcempty='echo "git commit --allow-empty-message --message=\"\"" && git commit --allow-empty-message --message=""'
+alias gcf='echo "git commit --amend --no-edit && git push -f" && git commit --amend --no-edit && git push -f'
+alias gp='echo "git push" && git push'
+alias gpf='echo "git push -f" && git push -f'
+function wippush {
+  # TODO: echo the entire command
+  # TODO: check out new branch if current branch is main
+  git add .
+  git commit -m 'WIP' -n # TODO: provide message
+  git push # TODO: push set upstream if not already
+}
+# alias wippush='git add . && git commit -m "WIP" && '
+
+
+alias rs='echo "bin/rspec" && bin/rspec --format documentation'
+alias rsn='echo "bin/rspec --next-failure" && bin/rspec -n'
+alias srb='echo "bin/srb tc" && bin/srb tc'
+alias pu='echo "bin/pks update" && bin/pks update'
+alias rc='echo "bin/rails console" && bin/rails c'
+alias rr='echo "bin/rails runner" && bin/rails r'
+alias mig='echo "bin/rails db:migrate" && bin/rails db:migrate'
+
+# echo -n "Pry.commands.alias_command 'c', 'continue'\nPry.commands.alias_command 's', 'step'\nPry.commands.alias_command 'n', 'next'\n" > ~/.pryrc
+# TODO: vimrc
+
 
 
 
@@ -648,15 +657,26 @@ function git_commit() {
 # OVERRIDES #
 #############
 
+# RSpec - don't show profiling info
+export SPECOPT="--format documentation --no-profile"
+
 [[ -f ~/.context_overrides ]] && source ~/.context_overrides
 # Work
 source ~/.gusto/init.sh >/dev/null 2>/dev/null # uh oh lol
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES DISABLE_SPRING=1
+export USE_CODEOWNERS_RS=true
 
+
+
+
+
+
+########
+# INIT #
+########
 
 end_exec_timer_ms
-
 # `\e[1A` scrolls up a line
 echo -e "\r\e[1A\e[1A\e[38;5;71m✔\e[0m loaded ~/.zshrc in $(exec_elapsed_time).
                                         
