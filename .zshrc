@@ -200,6 +200,9 @@ bindkey '^[[B' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
+# ZSH Autosuggestions
+# `brew install zsh-autosuggestions`
+test_source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 ######################
