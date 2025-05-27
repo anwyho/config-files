@@ -4,9 +4,9 @@ local config = wezterm.config_builder()
 -- https://wezfurlong.org/wezterm/colorschemes/a/index.html
 local schemes = {
   dark = {
+    -- Black Metal themes are pretty cool, but I want an actual green
     apprentice = 'Apprentice (Gogh)',
     arthur = 'Arthur (Gogh)',
-    -- Black Metal themes are pretty cool, but I want an actual green
     classic_dark = 'Classic Dark (base16)',
     darkmatrix = 'darkmatrix',
     darkmoss = 'darkmoss (base16)',
@@ -39,12 +39,11 @@ local schemes = {
     nord = 'Nord (Gogh)',
     ocean = 'Ocean (base16)',
     one_half_black = 'One Half Black (Gogh)',
-    -- interesting one, no red/green though
-    panels = 'Panels (terminal.sexy)',
+    panels = 'Panels (terminal.sexy)', -- interesting one, no red/green though
     pulp = 'Pulp (terminal.sexy)',
     rydgel = 'Rydgel (terminal.sexy)',
-    seashells = 'Sea Shells (Gogh)',
     seafoam_pastel = 'Seafoam Pastel (Gogh)',
+    seashells = 'Sea Shells (Gogh)',
     seoul256 = 'Seoul256 (Gogh)',
     sonokai = 'Sonokai (Gogh)',
     spacedust = 'Spacedust (Gogh)',
@@ -108,8 +107,8 @@ local schemes = {
     night_owlish_light = 'Night Owlish Light',
     nord_light = 'nord-light',
     ocean_light = 'Ocean (light) (terminal.sexy)',
-    one_light = 'One Light (base16)',
     one_half_light = 'OneHalfLight',
+    one_light = 'One Light (base16)',
     papercolor_light = 'Papercolor Light (Gogh)',
     piatto_light = 'Piatto Light',
     primary = 'primary',
@@ -182,5 +181,58 @@ config.font = wezterm.font_with_fallback {
 }
 
 
+config.window_decorations = "RESIZE"
+config.window_background_opacity = 0.92
+config.macos_window_background_blur = 20
+
+config.use_fancy_tab_bar = false
+config.hide_tab_bar_if_only_one_tab = true
+config.tab_bar_at_bottom = false
+
+config.enable_scroll_bar = true
+config.scrollback_lines = 20000
+config.min_scroll_bar_height = "2px" 
+
+config.colors = {
+  scrollbar_thumb = '#123',
+}
+
+
+config.window_background_gradient = {
+  colors = { '#203035', '#041323' },
+  -- Specifies a Linear gradient starting in the top left corner.
+  orientation = { Linear = { angle = -45.0 } },
+}
+
+-- config.window_frame = {
+--   border_top_height = '1.5cell',
+-- }
+
+
+-- TODO not working
+-- wezterm.on('command-output-ended', function(pane, exit_status, duration)
+--   if duration > 1000 then -- ms
+--     local pane_title = pane:get_title()
+--     local notification_title = 'Command Completed'
+--     local notification_body = string.format(
+--       'Command in pane "%s" took %.1f seconds to complete.',
+--       pane_title,
+--       duration / 1000
+--     )
+
+--     wezterm.notify(notification_title, notification_body)
+--   end
+-- end)
+
+
+
+-- GUSTO --
+config.launch_menu = { { cwd = "/Users/anthony.ho/workspace/hawaiian-ice/" }, }
+config.default_cwd = '/Users/anthony.ho/workspace/hawaiian-ice/'
+
+-- TODO: Alert on command completion if i'm not focused on tab
+-- wezterm.on('window-config-reloaded', function(window, pane)
+--   window:toast_notification('wezterm', 'configuration reloaded!', nil, 4000)
+-- end)
 
 return config
